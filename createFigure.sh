@@ -63,8 +63,11 @@ for file in "$SOURCE_FOLDER"/*.mp3; do
 
     # Copy the modified mp3 to the output directory
     cp "$file" "$OUTPUT_DIR/CP${ITERATOR}"
-    # Change title
-    id3v2 -t "$NEW_TITLE" "$OUTPUT_DIR/CP${ITERATOR}"
+
+    # Clear all tags
+    id3v2 -D "$OUTPUT_DIR/CP${ITERATOR}" >/dev/null 2>&1
+    # Add tags needed for Faba
+    id3v2 -A "Album Album" -a "Artist Artist" -T "1/1" -c "Converted for Faba Box" -t "$NEW_TITLE" "$OUTPUT_DIR/CP${ITERATOR}"
     # Cipher the file
     java MKICipher "$OUTPUT_DIR/CP${ITERATOR}"
     # Remove source file
